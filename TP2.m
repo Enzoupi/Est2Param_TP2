@@ -70,13 +70,29 @@ ylabel('log10 de l erreur')
 title(['Convergence du probleme adjoint : ' num2str(coeff(1))])
 
 %% Exercice 3 Gradient et Gradient conjugué à pas constant
+% ==> Question 2) Faire des tests pour plusieurs valeurs du pas
 n = 150;
 h = 1/n;
 x=linspace(h,1-h,n-1);
 Uobs = sin(pi.*x)';
 F = zeros(length(x),1);
-pas = 0.5;
-epsil = 1e-2;
-nitmax = 1000;
-[xmin,Jxmin,GJxmin,nit] = GCST(@J,@GJ,F,pas,epsil,nitmax);
+solex = pi^2.*sin(pi.*x)';
+epsil = 1e-7;
+nitmax = 10000;
+pas = [0.5 2 4 8 16 32 64 128 256 512 1024];
+for i=1:length(pas)
+    [xmin,Jxmin,GJxmin,nit] = GCST(@J,@GJ,F,pas(i),epsil,nitmax);
+    err(i) = max(abs(xmin-solex));
+    niter(i)= nit;
+end
+figure
+hold on
+plot(x,xmin)
+plot(x,solex)
+legend('Solution approchée','Solution exacte')
+
+figure
+plot(log10(pas),log10(niter))
+xlabel('log10 du pas')
+legend('nombre d itérations')
 
