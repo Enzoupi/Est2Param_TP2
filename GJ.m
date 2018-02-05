@@ -3,6 +3,5 @@ function [G] = GJ(F)
 %   Detailed explanation goes here
 U=direct(F);
 G=adjoint(U);
-
 end
 

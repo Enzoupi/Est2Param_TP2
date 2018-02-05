@@ -6,7 +6,7 @@ close all
 %% Tests de convergence du problème direct
 
 %Test dans un cas simple
-n = 150
+n = 150;
 h = 1/n;
 x=linspace(h,1-h,n-1);
 F = pi^2*sin(pi.*x)';
@@ -69,6 +69,14 @@ xlabel('log10 de h')
 ylabel('log10 de l erreur')
 title(['Convergence du probleme adjoint : ' num2str(coeff(1))])
 
-%% Exercice 3
-
+%% Exercice 3 Gradient et Gradient conjugué à pas constant
+n = 150;
+h = 1/n;
+x=linspace(h,1-h,n-1);
+Uobs = sin(pi.*x)';
+F = zeros(length(x),1);
+pas = 0.5;
+epsil = 1e-2;
+nitmax = 1000;
+[xmin,Jxmin,GJxmin,nit] = GCST(@J,@GJ,F,pas,epsil,nitmax);
 
